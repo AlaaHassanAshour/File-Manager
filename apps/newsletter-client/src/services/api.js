@@ -7,7 +7,14 @@ export const login = async (username, password) => {
 
   return response;
 };
+export const register = async (email, password) => {
+  const response = await apiCommon.post("/Auth/Register", {
+    email: email.trim(),
+    password,
+  });
 
+  return response;
+};
 export const createFolder = async (name, path) => {
   return await apiCommon.post(`/Folders/create`, null, {
     params: {

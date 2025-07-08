@@ -3,6 +3,8 @@ import { Content, Header } from "antd/es/layout/layout";
 
 import DarkModeSwitch from "../components/DarkModeSwitch";
 import LocalizationButton from "../components/LocalizationButton";
+import { Link } from "react-router-dom";
+import { UserAddOutlined } from "@ant-design/icons"; // أيقونة تسجيل جديد
 
 export default function UnprotectedRoute({ children }) {
   return (
@@ -19,6 +21,11 @@ export default function UnprotectedRoute({ children }) {
           </Col>
           <Col style={{ display: "flex" }}>
             <LocalizationButton />
+          </Col>
+              <Col>
+            <Link to="/register" style={{ color: "white", fontSize: "18px" }}>
+              <UserAddOutlined />
+            </Link>
           </Col>
         </Row>
       </Header>

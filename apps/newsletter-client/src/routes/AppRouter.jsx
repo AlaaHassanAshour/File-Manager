@@ -10,6 +10,7 @@ import UnprotectedRouteLayout from "../layouts/UnprotectedRoute";
 import ProtectedRoute from "../layouts/ProtectedRoute";
 import { apiCommon } from "../utils/axiosInstance";
 import Auth from "../contexts/Auth";
+import RegisterPage from "../pages/RegisterPage";
 
 const { Content } = Layout;
 
@@ -60,6 +61,14 @@ const AppRouter = () => {
                 element={
                   <UnprotectedRouteLayout>
                     <LoginPage />
+                  </UnprotectedRouteLayout>
+                }
+              />
+                 <Route
+                path="/register"
+                element={
+                  <UnprotectedRouteLayout>
+                    <RegisterPage />
                   </UnprotectedRouteLayout>
                 }
               />
