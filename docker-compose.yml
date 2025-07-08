@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  imageupload-api:
+    build:
+      context: .
+      dockerfile: ImageUpload/Dockerfile
+    ports:
+      - "44321:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=TenTime123#
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/mifteam.pfx
+      - ConnectionStrings__Default=Host=newsletter-db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
+    depends_on:
+      - newsletter-db
+    volumes:
+      - ~/.aspnet/https:/https:ro
+      - /tentime-strg-inhouse:/tentime-strg-inhouse
+    restart: always
+
+  newsletter-db:
+    image: postgres:16
+    container_name: newsletter-db
+    restart: always
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - newsletter_pgdata:/var/lib/postgresql/data
+    
+  newsletter-client:
+    container_name: newsletter-client
+    image: tt/newsletter-client
+    build:
+        context: ./apps/newsletter-client
+        dockerfile: Dockerfile
+        args:
+            VITE_MODE: development
+    ports:
+        - "44326:443"
+    volumes:
+      - ~/.aspnet/https:/etc/nginx/certs:ro
+    restart: always
+
+
+volumes:
+  newsletter_pgdata:
